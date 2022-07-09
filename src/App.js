@@ -1,23 +1,39 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { getHeroDetail } from "./api"
 import './App.css';
 
 function App() {
+  const [text, setText] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [data, setData] = useState(null)
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    const res = await getHeroDetail(text);
+    setData(res);
+    setLoading(false);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <label htmlFor="hero-name">Search</label>
+      <input
+        id="hero-name"
+        placeholder="Type a hero name"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button onClick={handleSubmit}>Submit</button>
+      {loading && <div>loading</div>}
+      {data && (
+        <div>
+          <img alt={`Avatar of ${data.name}`} src={data.avatar}  />
+          <div>
+            <div>{data.name}</div>
+            <div>{data.description}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
