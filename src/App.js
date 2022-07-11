@@ -11,6 +11,7 @@ function App() {
     setLoading(true);
     const res = await getHeroDetail(text);
     setData(res);
+    // console.log(data);
     setLoading(false);
   }
 
@@ -25,15 +26,15 @@ function App() {
       />
       <button onClick={handleSubmit}>Submit</button>
       {loading && <div>loading</div>}
-      {data && (
+      {data &&(
         <div>
-          <img alt={`Avatar of ${data.name}`} src={data.avatar}  />
+          <img alt={`Avatar of ${data.name}`} src={data.avatar} />
           <div>
             <div>{data.name}</div>
             <div>{data.description}</div>
           </div>
-        </div>
-      )}
+        </div>)
+      }
     </div>
   );
 }

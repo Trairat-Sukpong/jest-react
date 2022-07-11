@@ -15,14 +15,14 @@ const SUPERMAN = {
 getHeroDetail.mockResolvedValue(SUPERMAN)
 
 const renderApp = () => {
-  render(<App />)
-  const getInput = () => screen.getByLabelText(/search/i)
-  const getSubmit = () => screen.getByRole('button', { name: /submit/i })
+  render(<App />) //render App
+  const getInput = () => screen.getByLabelText(/search/i) //get input
+  const getSubmit = () => screen.getByRole('button', { name: /submit/i }) //fore submit
 
-  const runSearchJourney = async (name, pandingCallback) => {
+  const runSearchJourney = async (name) => {
     userEvent.type(getInput(), name)
     userEvent.click(getSubmit())
-    if (pandingCallback) pandingCallback()
+
     await waitForElementToBeRemoved(() => screen.getByText('loading'))
   }
 
@@ -30,13 +30,14 @@ const renderApp = () => {
     getInput,
     getSubmit,
     runSearchJourney
+
   }
 }
 
 describe('App', () => {
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.clearAllMocks() //เคลียmock
   })
 
   it('should display input & submit button', () => {
@@ -71,12 +72,11 @@ describe('App', () => {
   it('should loaded and render page. ', async () => {
     const { runSearchJourney } = renderApp()
 
-    await runSearchJourney('superman', () => {
+    await runSearchJourney('Superman', () => {
       screen.getByText(SUPERMAN.name)
       screen.getByText(SUPERMAN.description)
       screen.getByAltText(`Avatar of ${SUPERMAN.name}`)
     })
-
 
   })
 
